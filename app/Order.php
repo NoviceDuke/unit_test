@@ -18,6 +18,13 @@ class Order
     }
     public function total()
     {
-
+      // $total = 0 ;
+      // foreach ($this->products as $product ) {
+      //   $total += $product->price();
+      // }
+      // return $total;
+      return array_reduce($this->products , function($carry , $product){
+        return $carry + $product->price() ; 
+      });
     }
 }
