@@ -101,4 +101,17 @@ class TeamTest extends TestCase
 
       $this ->assertequals(1 , $team->count());
     }
+    public function testTeamAddMaxMember()
+    {
+      $team = factory(Team::class)->create(['size' => 2]);
+
+      $users = factory(User::class , 3)->create();
+
+      $this->setexpectedexception('Exception');
+      
+      $team->add($users);
+
+
+
+    }
 }
