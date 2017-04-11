@@ -12,7 +12,7 @@ class Team extends Model
     public function add($users)
     {
       //guard
-      $this ->guardAgainstTooManyMembers($users);
+      $this ->guardAgainstTooManyMembers($this->extractNewUserCount($users));
 
       $method = $users instanceOf User ?'save' :'saveMany';
 
@@ -57,12 +57,20 @@ class Team extends Model
     {
         return $this->members()->update(['team_id' => null ]) ;
     }
-    protected function guardAgainstTooManyMembers($users)
+    public function maximumSize()
     {
-      $numUserToAdd = ($users instanceOf User)? 1: $users->count();
-      $newTeamCount = $this->count() + $numUserToAdd;
-      if( $newTeamCount > $this->size){
+      return $this->size;
+    }
+    protected function guardAgainstTooManyMembers($newUserCount)
+    {
+
+      $newTeamCount = $this->count() + $newUserCount;
+      if( $newTeamCount > $this->maximumSize()){
         throw new \ErrorException;
       }
+    }
+    protected function extractNewUserCount($users)
+    {
+      return ($users instanceOf User)? 1: $users->count();
     }
 }
