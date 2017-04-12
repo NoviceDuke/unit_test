@@ -14,11 +14,17 @@ class LikeTest extends TestCase
     {
       $post = factory(Post::class)->create();
       $user = factory(User::class)->create();
-
+      //laravel provide function
       $this->actingAs($user);
 
       $post->like();
 
       $this->asserttrue($post->isLiked());
+
+      $this->seeInDatabase('likes',[
+        'user_id'=> $this->id,
+        'likeable_id'=>$post->id,
+        'likeable_type'=> get_class($post),
+      ]);
     }
 }
