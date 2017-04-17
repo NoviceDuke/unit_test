@@ -10,55 +10,58 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class LikeTest extends TestCase
 {
+    use DatabaseTransactions;
+
+    protected $post ;
+
+    public function setUp()
+    {
+      parent::setUp();
+
+      //$this->post = factory(Post::class)->create();
+      $this->post = createPost();
+      $this->signIn();
+    }
     public function testUserLikePost()
     {
-      $post = factory(Post::class)->create();
-      $user = factory(User::class)->create();
-      //laravel provide function
-      $this->actingAs($user);
 
-      $post->like();
+      $this->post->like();
 
 
       $this->assertDatabaseHas('likes',[
-        'user_id'=> $user->id,
-        'likeable_id'=>$post->id,
-        'likeable_type'=> get_class($post),
+        'user_id'=> $this->user->id,
+        'likeable_id'=>$this->post->id,
+        'likeable_type'=> get_class($this->post),
       ]);
-      $this->asserttrue($post->isLiked());
+      $this->asserttrue($this->post->isLiked());
     }
     public function testUserUnlikePost()
     {
-      $post = factory(Post::class)->create();
-      $user = factory(User::class)->create();
-      //laravel provide function
-      $this->actingAs($user);
 
-      $post->like();
-      $post->unlike();
+      $this->post->like();
+      $this->post->unlike();
 
       $this->assertDatabaseMissing('likes',[
-        'user_id'=> $user->id,
-        'likeable_id'=>$post->id,
-        'likeable_type'=> get_class($post),
+        'user_id'=> $this->user->id,
+        'likeable_id'=>$this->post->id,
+        'likeable_type'=> get_class($this->post),
       ]);
-      $this->assertfalse($post->isLiked());
+      $this->assertfalse($this->post->isLiked());
     }
     public function testUserCanTogglePostLike()
     {
-      $post = factory(Post::class)->create();
-      $user = factory(User::class)->create();
-      //laravel provide function
-      $this->actingAs($user);
 
-      $post->like();
-      $post->unlike();
+      $this->post->toggle();
+      $this->assertTrue($this->post->isLiked());
 
-      $this->assertDatabaseMissing('likes',[
-        'user_id'=> $user->id,
-        'likeable_id'=>$post->id,
-        'likeable_type'=> get_class($post),
-      ]);
-      $this->assertfalse($post->isLiked());
+      $this->post->toggle();
+      $this->assertfalse($this->post->isLiked());
+    }
+    public function testPostCountLike()
+    {
+
+
+      $this->post->toggle();
+      $this->assertequals(1,$this->post->likesCount);
     }
 }

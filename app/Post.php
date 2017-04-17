@@ -7,24 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     //
-    public function likes()
-    {
-      return $this->morphMany(Like::class,'likeable');
-    }
-    public function like()
-    {
-      $like = new Like(['user_id' => Auth::id()]);
+    use Likeability;
 
-      $this->likes()->save($like);
-    }
-    public function unlike()
-    {
-        $this->likes()->where('user_id', Auth::id())->delete();
-    }
-    public function isLiked()
-    {
-      return !! $this->likes()
-                  ->where('user_id',Auth::id())
-                  ->count();
-    }
+
 }
