@@ -66,6 +66,7 @@
 /******/ 	return __webpack_require__(__webpack_require__.s = 206);
 /******/ })
 /************************************************************************/
+<<<<<<< HEAD
 /******/ ([
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -38038,11 +38039,25 @@ module.exports = function normalizeComponent (
 /* 204 */,
 /* 205 */,
 /* 206 */
+=======
+/******/ ({
+
+/***/ 128:
+/***/ (function(module, __webpack_exports__) {
+
+"use strict";
+throw new Error("Module build failed: Error: ENOENT: no such file or directory, open 'D:\\xampp\\htdocs\\unit_test\\resources\\assets\\js\\main.js'\n    at Error (native)");
+
+/***/ }),
+
+/***/ 206:
+>>>>>>> master
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(128);
 
 
+<<<<<<< HEAD
 /***/ }),
 /* 207 */,
 /* 208 */,
@@ -38122,3 +38137,8 @@ if (false) {
 
 /***/ })
 /******/ ]);
+=======
+/***/ })
+
+/******/ });
+>>>>>>> master
